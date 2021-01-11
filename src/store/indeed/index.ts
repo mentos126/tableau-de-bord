@@ -1,19 +1,16 @@
-import {
-  Store as VuexStore,
-  CommitOptions,
-  DispatchOptions,
-  Module,
-} from 'vuex'
+import { CommitOptions, DispatchOptions, Module, Store as VuexStore } from 'vuex'
+
 import { RootState } from '../../store'
-import { state } from './state'
+import { actions, Actions } from './actions'
 import { getters, Getters } from './getters'
 import { mutations, Mutations } from './mutations'
-import { actions, Actions } from './actions'
+import { state } from './state'
+
 import type { State } from './state'
 
 export { State }
 
-export type BrawlstarsStore<S = State> = Omit<VuexStore<S>, 'getters' | 'commit' | 'dispatch'>
+export type IndeedStore<S = State> = Omit<VuexStore<S>, 'getters' | 'commit' | 'dispatch'>
 & {
   commit<K extends keyof Mutations, P extends Parameters<Mutations[K]>[1]>(
     key: K,

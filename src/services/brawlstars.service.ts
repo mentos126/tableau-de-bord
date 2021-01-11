@@ -2,13 +2,16 @@ import { http } from "../helpers"
 
 console.log(process)
 
-http.defaults.baseURL = 'https://api.brawlstars.com/v1/'
-http.defaults.headers.common = {
-  'Authorization': `bearer ${process.env.BRAWLSTARS_TOKEN}`
-}
+const BASE_URL = 'https://api.brawlstars.com/v1/'
+
+// http.defaults.headers.common = {
+//   'Authorization': `bearer ${process.env.BRAWLSTARS_TOKEN}`
+// }
+
+console.log(http)
 
 const getOneProfile = (playerId: string) => {
-  return http.get(`players/%23${playerId}`)
+  return http.get(`${BASE_URL}players/%23${playerId}`)
     .then(response => response.data)
 }
 

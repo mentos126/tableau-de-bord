@@ -1,6 +1,5 @@
 <template>
   <div>
-    coucou
     <section>
       <h2>Composition API Component</h2>
       <p>{{ counter }}</p>
@@ -22,7 +21,7 @@ import { BrawlstarsActionTypes } from '../store/brawlstars/action-types'
 
 export default defineComponent({
   name: 'AppBrawlstars',
-  setup (props, context) {
+  setup () {
     const store = useStore()
     const counter = computed(() => store.state.brawlstars.counter)
     const doubledCounter = computed(() => store.getters.doubledCounter)
@@ -34,8 +33,11 @@ export default defineComponent({
     const res = ref(null)
 
     onMounted(async () => {
-      console.log(store)
-      res.value = await store.dispatch(BrawlstarsActionTypes.GET_BRAWLSTARS_PROFILE, 'PQJQ9L98U')
+      try {
+        res.value = await store.dispatch(BrawlstarsActionTypes.GET_BRAWLSTARS_PROFILE, 'PQJQ9L98U')
+      } catch (error: unknown) {
+        console.log(error)
+      }
     })
 
     function addCounter () {

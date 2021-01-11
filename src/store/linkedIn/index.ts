@@ -13,7 +13,7 @@ import type { State } from './state'
 
 export { State }
 
-export type BrawlstarsStore<S = State> = Omit<VuexStore<S>, 'getters' | 'commit' | 'dispatch'>
+export type LinkedInStore<S = State> = Omit<VuexStore<S>, 'getters' | 'commit' | 'dispatch'>
 & {
   commit<K extends keyof Mutations, P extends Parameters<Mutations[K]>[1]>(
     key: K,
