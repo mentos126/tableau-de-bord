@@ -1,7 +1,7 @@
 module.exports = {
   baseUrl: '/',
   outputDir: 'docs',
-  publicPath: '/tableau-de-bord/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/tableau-de-bord/' : '/',
   css: {
     loaderOptions: {
       sass: {

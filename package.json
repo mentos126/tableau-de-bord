@@ -5,10 +5,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --base=/tableau-de-bord/",
-    "deploy": "node ./node_modules/vue-gh-pages/index.js"
+    "deploy": "node ./node_modules/vue-gh-pages/index.js --branch gh-pages -m \"Deploy to gh-pages.\""
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "patch-package": "^6.2.2",
     "vue": "^3.0.4",
     "vue-axios": "^3.2.2",
     "vue-class-component": "^7.2.6",
