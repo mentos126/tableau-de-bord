@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "deploy": "sh deploy.sh"
+    "deploy": "vite build --base=/tableau-de-bord/"
   },
   "dependencies": {
     "axios": "^0.21.1",
