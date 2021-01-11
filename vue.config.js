@@ -1,4 +1,6 @@
 module.exports = {
+  baseUrl: '/',
+  outputDir: 'docs',
   publicPath: '/tableau-de-bord/',
   css: {
     loaderOptions: {

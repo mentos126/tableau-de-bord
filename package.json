@@ -1,16 +1,18 @@
 {
   "name": "tableau-de-bord",
   "version": "0.0.0",
+  "homepage": "https://github.com/mentos126/tableau-de-bord",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "deploy": "vite build --base=/tableau-de-bord/"
+    "build": "vite build --base=/tableau-de-bord/",
+    "deploy": "node ./node_modules/vue-gh-pages/index.js"
   },
   "dependencies": {
     "axios": "^0.21.1",
     "vue": "^3.0.4",
     "vue-axios": "^3.2.2",
     "vue-class-component": "^7.2.6",
+    "vue-gh-pages": "^1.19.1",
     "vue-router": "^4.0.2",
     "vuex": "^4.0.0-rc.2",
     "vuex-module-decorators": "^1.0.1",
