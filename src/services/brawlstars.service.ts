@@ -1,13 +1,15 @@
 import { http } from "../helpers"
 
-const BASE_URL = 'https://api.brawlstars.com/v1/'
+const BASE_URL = 'https://lit-fortress-71878.herokuapp.com/test/https://www.starlist.pro/stats/'
 
 // http.defaults.headers.common = {
 //   'Authorization': `bearer ${process.env.BRAWLSTARS_TOKEN}`
 // }
 
+// console.log(import.meta.env)
+
 const getOneProfile = (playerId: string) => {
-  return http.get(`${BASE_URL}players/%23${playerId}`)
+  return http.get(`${BASE_URL}profile/${playerId}`)
     .then(response => response.data)
 }
 
