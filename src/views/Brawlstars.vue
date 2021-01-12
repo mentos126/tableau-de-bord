@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="app-brawlstars">
     <section>
       <h2>Composition API Component</h2>
-      <div style="display: flex; flex-wrap: wrap;">
-        <div v-html="brawlMe"></div>
-        <div v-html="brawlContest"></div>
+      <div class="brawl-wrap" style="">
+        <div class="brawl" v-html="brawlMe"></div>
+        <div class="brawl" v-html="brawlContest"></div>
       </div>
     </section>
   </div>
@@ -35,13 +35,18 @@ export default defineComponent({
       let temp = ''
       const body = result.querySelectorAll('div.container-fluid.content-container.px-0.py-0.mb-0 .post-type1')
       for (const el of body) {
-        let i = el.querySelectorAll('script')
-        i.forEach(element => {
+        el.querySelectorAll('script, link, noscript').forEach(element => {
           element.parentNode.removeChild(element)
         })
-        i = el.querySelectorAll('link')
-        i.forEach(element => {
-          element.parentNode.removeChild(element)
+
+        el.querySelectorAll('img').forEach(element => {
+          if (element.getAttribute('data-cfsrc')) {
+            element.src = element.getAttribute('data-cfsrc')
+          }
+          element.style = ''
+          if (element.getAttribute('data-cfstyle')) {
+            element.style = element.getAttribute('data-cfstyle')
+          }
         })
         temp += el.innerHTML
       }
@@ -67,6 +72,50 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
-@import '../assets/css/brawlstars.css'
+<style lang="scss" scopped>
+.app-brawlstars {
+  background: #0a0a0a;
+}
+
+@import '../assets/scss/brawlstars.scss';
+
+.brawl-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .brawl-wrap {
+    flex-wrap: wrap;
+  }
+}
+
+.brawl {
+  min-width: 50%;
+  flex-shrink: 1;
+  flex-grow: 1;
+}
+
+.font-weight-normal {
+  display: flex;
+}
+
+.summary-box img:nth-child(2) {
+  position: absolute;
+  width: 50%;
+}
+
+.brl-top-l,
+.brl-top-r,
+.brl-btm-l,
+.brl-btm-r {
+  display: flex;
+
+  img {
+    width: 20px;
+  }
+}
+
 </style>
