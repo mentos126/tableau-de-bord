@@ -23,7 +23,7 @@ export const store = createStore({
     documents,
     linkedIn,
     indeed
-  },
+  }
 })
 
 export default {
