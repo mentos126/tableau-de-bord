@@ -1,8 +1,8 @@
 import { ActionContext, ActionTree } from 'vuex'
 
-import { indeedServices } from '../../services'
+import { sudOuestJobServices } from '../../services'
 import { RootState } from '../../store'
-import { IndeedInActionTypes } from './action-types'
+import { SudOuestJobActionTypes } from './action-types'
 import { Mutations } from './mutations'
 import { State } from './state'
 
@@ -11,11 +11,11 @@ type AugmentedActionContext = {
 } & Omit<ActionContext<State, RootState>, 'commit'>
 
 export interface Actions {
-  [IndeedInActionTypes.GET_JOBS]({}: AugmentedActionContext): Promise<string>
+  [SudOuestJobActionTypes.GET_JOBS]({}: AugmentedActionContext): Promise<string>
 }
 
 export const actions: ActionTree<State, RootState> & Actions = {
-  [IndeedInActionTypes.GET_JOBS] (_) {
-    return indeedServices.getListOfJobToulouseDevWeb()
+  [SudOuestJobActionTypes.GET_JOBS] (_) {
+    return sudOuestJobServices.getListOfJobToulouseDevWeb()
   }
 }

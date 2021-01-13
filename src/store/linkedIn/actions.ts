@@ -4,7 +4,7 @@ import { Mutations } from './mutations'
 import { State } from './state'
 import { RootState } from '../../store'
 
-import { linkedInServices } from '../../services/linkedIn.service'
+import { linkedInServices } from '../../services'
 
 type AugmentedActionContext = {
   commit <K extends keyof Mutations> (key: K, payload: Parameters<Mutations[K]>[1]): ReturnType<Mutations[K]>

@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios"
 import { http } from "../helpers"
 
-const BASE_URL = 'https://www.linkedin.com/'
+const BASE_URL = 'https://lit-fortress-71878.herokuapp.com/test/https://www.linkedin.com/'
 
 const getListOfJobToulouseDevWeb = async () => {
   let response: AxiosResponse

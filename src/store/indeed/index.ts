@@ -19,7 +19,7 @@ export type IndeedStore<S = State> = Omit<VuexStore<S>, 'getters' | 'commit' | '
   ): ReturnType<Mutations[K]>
 } & {
   dispatch<K extends keyof Actions>(
-    key: K,
+    key: K | string,
     payload: Parameters<Actions[K]>[1],
     options?: DispatchOptions
   ): ReturnType<Actions[K]>

@@ -12,8 +12,8 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, onUpdated, ref } from 'vue'
+import { removeHtmlElement, stringToHTML } from '../helpers'
 import { useStore } from '../hooks/store'
-import { BrawlersMutationTypes } from '../store/brawlstars/mutations-types'
 import { BrawlstarsActionTypes } from '../store/brawlstars/action-types'
 
 export default defineComponent({
@@ -24,33 +24,23 @@ export default defineComponent({
     const brawlMe = ref(null)
     const brawlContest = ref(null)
 
-    const stringToHTML = function (str: string) {
-      const parser = new DOMParser()
-      const doc = parser.parseFromString(str, 'text/html')
-      return doc
-    }
-
     const formatForTemplate = function (html) {
-      const result = stringToHTML(html)
-      let temp = ''
-      const body = result.querySelectorAll('div.container-fluid.content-container.px-0.py-0.mb-0 .post-type1')
-      for (const el of body) {
-        el.querySelectorAll('script, link, noscript').forEach(element => {
-          element.parentNode.removeChild(element)
-        })
+      const stat = stringToHTML(html).querySelectorAll('div.container-fluid.content-container.px-0.py-0.mb-0 .post-type1')
+      let profile = ''
+      for (const el in stat) {
+        removeHtmlElement(stat[el], 'script, link, noscript')
 
-        el.querySelectorAll('img').forEach(element => {
+        stat[el].querySelectorAll('img').forEach(element => {
           if (element.getAttribute('data-cfsrc')) {
             element.src = element.getAttribute('data-cfsrc')
           }
-          element.style = ''
           if (element.getAttribute('data-cfstyle')) {
             element.style = element.getAttribute('data-cfstyle') // + 'width: 200px; margin: auto;'
           }
         })
-        temp += el.innerHTML
+        profile += stat[el].innerHTML
       }
-      return temp
+      return profile
     }
 
     onMounted(async () => {
