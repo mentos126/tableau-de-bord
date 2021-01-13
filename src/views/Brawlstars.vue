@@ -45,7 +45,7 @@ export default defineComponent({
           }
           element.style = ''
           if (element.getAttribute('data-cfstyle')) {
-            element.style = element.getAttribute('data-cfstyle')
+            element.style = element.getAttribute('data-cfstyle') // + 'width: 200px; margin: auto;'
           }
         })
         temp += el.innerHTML
@@ -73,20 +73,19 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scopped>
+  @import '../assets/scss/brawlstars.scss';
+
 .app-brawlstars {
   background: #0a0a0a;
 }
-
-@import '../assets/scss/brawlstars.scss';
 
 .brawl-wrap {
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1050px) {
   .brawl-wrap {
     flex-wrap: wrap;
   }
@@ -99,7 +98,7 @@ export default defineComponent({
 }
 
 .font-weight-normal {
-  display: flex;
+  display: flex !important;
 }
 
 .summary-box img:nth-child(2) {
@@ -116,6 +115,26 @@ export default defineComponent({
   img {
     width: 20px;
   }
+}
+
+.brl-top-l,
+.brl-btm-l{
+  left: 10%!important;
+}
+
+.brawl-wrap .container,
+.brawl-wrap body {
+  min-width: 280px!important;
+}
+
+.brawl-wrap .table td,
+.brawl-wrap .table th {
+  background-color: #1c1c1c!important;
+}
+
+.brawl-wrap .container,
+.brawl-wrap body {
+  min-width: 280px!important;
 }
 
 </style>
