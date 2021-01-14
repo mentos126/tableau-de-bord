@@ -1,7 +1,6 @@
 <template>
   <div class="app-brawlstars">
     <section>
-      <h2>Composition API Component</h2>
       <div class="brawl-wrap" style="">
         <div class="brawl" v-html="brawlMe"></div>
         <div class="brawl" v-html="brawlContest"></div>
@@ -11,10 +10,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUpdated, ref } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import { removeHtmlElement, stringToHTML } from '../helpers'
 import { useStore } from '../hooks/store'
-import { BrawlstarsActionTypes } from '../store/brawlstars/action-types'
+import { ActionsTypes } from '../store'
 
 export default defineComponent({
   name: 'AppBrawlstars',
@@ -25,17 +24,19 @@ export default defineComponent({
     const brawlContest = ref(null)
 
     const formatForTemplate = function (html) {
-      const stat = stringToHTML(html).querySelectorAll('div.container-fluid.content-container.px-0.py-0.mb-0 .post-type1')
+      const res = stringToHTML(html)
+      const stat = res.querySelectorAll('div.container-fluid.content-container.px-0.py-0.mb-0 .post-type1')
       let profile = ''
-      for (const el in stat) {
+      for (let el = 0; el < stat.length; el++) {
         removeHtmlElement(stat[el], 'script, link, noscript')
 
         stat[el].querySelectorAll('img').forEach(element => {
           if (element.getAttribute('data-cfsrc')) {
             element.src = element.getAttribute('data-cfsrc')
           }
+          element.style = ''
           if (element.getAttribute('data-cfstyle')) {
-            element.style = element.getAttribute('data-cfstyle') // + 'width: 200px; margin: auto;'
+            element.style = element.getAttribute('data-cfstyle')
           }
         })
         profile += stat[el].innerHTML
@@ -45,8 +46,8 @@ export default defineComponent({
 
     onMounted(async () => {
       try {
-        const resultLeft = await store.dispatch(`brawlstars/${BrawlstarsActionTypes.GET_BRAWLSTARS_PROFILE}`, 'PQJQ9L98U')
-        const resultRight = await store.dispatch('brawlstars/' + BrawlstarsActionTypes.GET_BRAWLSTARS_PROFILE, '9VJYP289Q')
+        const resultLeft = await store.dispatch(`brawlstars/${ActionsTypes.BrawlstarsActionTypes.GET_BRAWLSTARS_PROFILE}`, 'PQJQ9L98U')
+        const resultRight = await store.dispatch(`brawlstars/${ActionsTypes.BrawlstarsActionTypes.GET_BRAWLSTARS_PROFILE}`, '9VJYP289Q')
         brawlMe.value = formatForTemplate(resultLeft)
         brawlContest.value = formatForTemplate(resultRight)
       } catch (error: unknown) {
@@ -96,26 +97,35 @@ export default defineComponent({
   width: 50%;
 }
 
+.container.pt-3.pb-3 .row a {
+  width: 33% !important;
+  height: 33% !important;
+  max-width: 200px !important;
+  max-height: 200px !important;
+  position: relative !important;
+  flex: none !important;
+}
+
 .brl-top-l,
 .brl-top-r,
 .brl-btm-l,
 .brl-btm-r {
-  display: flex;
+  display: flex !important;
 
   img {
-    width: 20px;
+    width: 20px !important;
   }
 }
 
-.brl-top-l,
-.brl-btm-l{
-  left: 10%!important;
-}
+// .brl-top-l,
+// .brl-btm-l{
+//   // left: 15%!important;
+// }
 
-.brawl-wrap .container,
-.brawl-wrap body {
-  min-width: 280px!important;
-}
+// .brl-btm-l,
+// .brl-btm-r{
+//   // bottom: 20%!important;
+// }
 
 .brawl-wrap .table td,
 .brawl-wrap .table th {
@@ -124,7 +134,7 @@ export default defineComponent({
 
 .brawl-wrap .container,
 .brawl-wrap body {
-  min-width: 280px!important;
+  // min-width: 280px!important;
 }
 
 </style>

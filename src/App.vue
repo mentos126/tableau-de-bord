@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex flex-col h-screen">
     <nav class="bg-gray-800">
       <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div class="relative flex items-center justify-between h-16">
@@ -33,7 +33,9 @@
         </div>
       </div>
     </nav>
-    <router-view :key="$route.fullPath"/>
+    <div class="bg-gray-100 flex justify-center items-center flex-grow">
+      <router-view :key="$route.fullPath"/>
+    </div>
   </div>
 </template>
 

@@ -8,10 +8,13 @@ import { RootState } from '../../store'
 import { state } from './state'
 import { getters, Getters } from './getters'
 import { mutations, Mutations } from './mutations'
+import { BrawlstarsActionTypes } from './action-types'
 import { actions, Actions } from './actions'
 import type { State } from './state'
 
 export { State }
+
+export { BrawlstarsActionTypes }
 
 export type BrawlstarsStore<S = State> = Omit<VuexStore<S>, 'getters' | 'commit' | 'dispatch'>
 & {

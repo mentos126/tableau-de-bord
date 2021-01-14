@@ -50,7 +50,6 @@ export default defineComponent({
 .app-indeed {
   font-family: 'Noto Sans','Helvetica Neue',Helvetica,Arial,sans-serif !important;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
 }

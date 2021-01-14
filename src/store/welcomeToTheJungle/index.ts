@@ -1,22 +1,19 @@
-import {
-  Store as VuexStore,
-  CommitOptions,
-  DispatchOptions,
-  Module,
-} from 'vuex'
+import { CommitOptions, DispatchOptions, Module, Store as VuexStore } from 'vuex'
+
 import { RootState } from '../../store'
-import { state } from './state'
+import { WelcomeToTheJungleActionTypes } from './action-types'
+import { actions, Actions } from './actions'
 import { getters, Getters } from './getters'
 import { mutations, Mutations } from './mutations'
-import { LinkedInActionTypes } from './action-types'
-import { actions, Actions } from './actions'
+import { state } from './state'
+
 import type { State } from './state'
 
 export { State }
 
-export { LinkedInActionTypes }
+export { WelcomeToTheJungleActionTypes }
 
-export type LinkedInStore<S = State> = Omit<VuexStore<S>, 'getters' | 'commit' | 'dispatch'>
+export type WelcomeToTheJungleStore<S = State> = Omit<VuexStore<S>, 'getters' | 'commit' | 'dispatch'>
 & {
   commit<K extends keyof Mutations, P extends Parameters<Mutations[K]>[1]>(
     key: K,
@@ -25,7 +22,7 @@ export type LinkedInStore<S = State> = Omit<VuexStore<S>, 'getters' | 'commit' |
   ): ReturnType<Mutations[K]>
 } & {
   dispatch<K extends keyof Actions>(
-    key: K,
+    key: K | string,
     payload: Parameters<Actions[K]>[1],
     options?: DispatchOptions
   ): ReturnType<Actions[K]>

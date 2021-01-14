@@ -8,10 +8,13 @@ import { RootState } from '../../store'
 import { state } from './state'
 import { getters, Getters } from './getters'
 import { mutations, Mutations } from './mutation'
+import { DocumentsActionTypes } from './action-types'
 import { actions, Actions } from './action'
 import type { State } from './state'
 
 export { State }
+
+export { DocumentsActionTypes }
 
 export type DocumentsStore<S = State> = Omit<VuexStore<S>, 'getters' | 'commit' | 'dispatch'>
 & {

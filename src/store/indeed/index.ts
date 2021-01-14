@@ -1,6 +1,7 @@
 import { CommitOptions, DispatchOptions, Module, Store as VuexStore } from 'vuex'
 
 import { RootState } from '../../store'
+import { IndeedInActionTypes } from './action-types'
 import { actions, Actions } from './actions'
 import { getters, Getters } from './getters'
 import { mutations, Mutations } from './mutations'
@@ -9,6 +10,8 @@ import { state } from './state'
 import type { State } from './state'
 
 export { State }
+
+export { IndeedInActionTypes }
 
 export type IndeedStore<S = State> = Omit<VuexStore<S>, 'getters' | 'commit' | 'dispatch'>
 & {

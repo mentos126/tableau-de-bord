@@ -1,10 +1,11 @@
 import { createStore } from 'vuex'
 
-import { store as brawlstars, State as BrawlstarsState, BrawlstarsStore } from './brawlstars'
-import { store as documents, State as DocumentsState, DocumentsStore } from './documents'
-import { store as indeed, State as IndeedState, IndeedStore } from './indeed'
-import { store as linkedIn, State as LinkedInState, LinkedInStore } from './linkedIn'
-import { store as sudOuestJob, State as SudOuestJobState, SudOuestJobStore } from './sudOuestJob'
+import { store as brawlstars, State as BrawlstarsState, BrawlstarsStore, BrawlstarsActionTypes } from './brawlstars'
+import { store as documents, State as DocumentsState, DocumentsStore, DocumentsActionTypes } from './documents'
+import { store as indeed, State as IndeedState, IndeedStore, IndeedInActionTypes } from './indeed'
+import { store as linkedIn, State as LinkedInState, LinkedInStore, LinkedInActionTypes } from './linkedIn'
+import { store as sudOuestJob, State as SudOuestJobState, SudOuestJobStore, SudOuestJobActionTypes } from './sudOuestJob'
+import { store as welcomeToTheJungle, State as WelcomeToTheJungleState, WelcomeToTheJungleStore, WelcomeToTheJungleActionTypes } from './welcomeToTheJungle'
 
 
 export type RootState = {
@@ -12,7 +13,8 @@ export type RootState = {
   brawlstars: BrawlstarsState,
   linkedIn: LinkedInState,
   indeed: IndeedState,
-  sudOuestJob: SudOuestJobState
+  sudOuestJob: SudOuestJobState,
+  welcomeToTheJungle: WelcomeToTheJungleState
 }
 
 export type Store = DocumentsStore<Pick<RootState, 'documents'>>
@@ -20,6 +22,7 @@ export type Store = DocumentsStore<Pick<RootState, 'documents'>>
  & LinkedInStore<Pick<RootState, 'linkedIn'>>
  & IndeedStore<Pick<RootState, 'indeed'>>
  & SudOuestJobStore<Pick<RootState, 'sudOuestJob'>>
+ & WelcomeToTheJungleStore<Pick<RootState, 'welcomeToTheJungle'>>
 
 export const store = createStore({
   modules: {
@@ -27,9 +30,19 @@ export const store = createStore({
     documents,
     linkedIn,
     indeed,
-    sudOuestJob
+    sudOuestJob,
+    welcomeToTheJungle
   }
 })
+
+export const ActionsTypes = {
+  BrawlstarsActionTypes,
+  DocumentsActionTypes,
+  IndeedInActionTypes,
+  LinkedInActionTypes,
+  SudOuestJobActionTypes,
+  WelcomeToTheJungleActionTypes
+}
 
 export default {
   store
