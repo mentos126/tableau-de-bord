@@ -87,7 +87,7 @@ export default defineComponent({
     const welcomeToTheJungle = ref(null)
 
     const onSubmit = () => {
-      if (password.value === '') {
+      if (password.value === 'dosmentos') {
         logged.value = true
       } else {
         logged.value = false
