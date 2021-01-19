@@ -27,7 +27,7 @@
     <div class="md:flex flex-col justify-start md:flex-row md:min-h-screen">
       <div class="flex flex-col md:w-64 text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800 flex-shrink-0">
         <div class="flex-shrink-0 px-8 py-4 flex flex-row items-center justify-between">
-          <a href="#" class="text-lg font-semibold tracking-widest text-gray-900 uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline">
+          <a href="." class="text-lg font-semibold tracking-widest text-gray-900 uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline">
             JOB LIST
           </a>
           <button
@@ -41,15 +41,15 @@
           </button>
         </div>
         <nav class="md:block px-4 pb-4 md:pb-0 md:overflow-y-auto" :class="{'block': open, 'hidden': !open}">
-          <a :class="getLinkClasses('linkedIn')" href="#" @click="selected = 'linkedIn'">linkedIn</a>
-          <a :class="getLinkClasses('indeed')" href="#" @click="selected = 'indeed'">Indeed</a>
-          <a :class="getLinkClasses('sudOuestJob')" href="#" @click="selected = 'sudOuestJob'">SudOuestJob</a>
-          <a :class="getLinkClasses('welcomeToTheJungle')" href="#" @click="selected = 'welcomeToTheJungle'">Welcome To The Jungle</a>
+          <div :class="getLinkClasses('linkedIn')" @click="selected = 'linkedIn'">linkedIn</div>
+          <div :class="getLinkClasses('indeed')" @click="selected = 'indeed'">Indeed</div>
+          <div :class="getLinkClasses('sudOuestJob')" @click="selected = 'sudOuestJob'">SudOuestJob</div>
+          <div :class="getLinkClasses('welcomeToTheJungle')" @click="selected = 'welcomeToTheJungle'">Welcome To The Jungle</div>
         </nav>
       </div>
     </div>
     <div class="w-full">
-      <!-- <app-linked-in :html="linkedIn"></app-linked-in> -->
+      <app-linked-in v-if="selected === 'linkedIn'" :html="linkedIn"></app-linked-in>
       <app-indeed v-if="selected === 'indeed'" :html="indeed"></app-indeed>
       <app-sud-ouest-job v-if="selected === 'sudOuestJob'" :html="sudOuestJob"></app-sud-ouest-job>
       <app-welcome-to-the-jungle v-if="selected === 'welcomeToTheJungle'" :html="welcomeToTheJungle"></app-welcome-to-the-jungle>
@@ -62,7 +62,7 @@ import { defineComponent, onMounted, ref } from 'vue'
 import { useStore } from '../hooks/store'
 import { ActionsTypes } from '../store'
 import AppIndeed from '../components/AppIndeed.vue'
-// import AppLinkedIn from '../components/AppLinkedIn.vue'
+import AppLinkedIn from '../components/AppLinkedIn.vue'
 import AppSudOuestJob from '../components/AppSudOuestJob.vue'
 import AppWelcomeToTheJungle from '../components/AppWelcomeToTheJungle.vue'
 
@@ -70,7 +70,7 @@ export default defineComponent({
   name: 'JobsList',
   components: {
     AppIndeed,
-    // AppLinkedIn,
+    AppLinkedIn,
     AppSudOuestJob,
     AppWelcomeToTheJungle
   },
@@ -95,7 +95,7 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      // linkedIn.value = await store.dispatch('linkedIn/' + ActionsTypes.LinkedInActionTypes.GET_JOBS, null)
+      linkedIn.value = await store.dispatch('linkedIn/' + ActionsTypes.LinkedInActionTypes.GET_JOBS, null)
       indeed.value = await store.dispatch('indeed/' + ActionsTypes.IndeedInActionTypes.GET_JOBS, null)
       sudOuestJob.value = await store.dispatch('sudOuestJob/' + ActionsTypes.SudOuestJobActionTypes.GET_JOBS, null)
       welcomeToTheJungle.value = await store.dispatch('welcomeToTheJungle/' + ActionsTypes.WelcomeToTheJungleActionTypes.GET_JOBS, null)

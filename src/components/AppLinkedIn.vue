@@ -33,7 +33,7 @@ export default defineComponent({
       //   jobs += '<div class="item">' + linkedInBody[el].outerHTML + '</div>'
       // }
       // linkedIn.value = jobs
-
+      console.log(html.value)
       linkedIn.value = html.value
     }
 
