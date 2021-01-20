@@ -2,10 +2,9 @@
   <div class="app-brawlstars">
     <app-loader v-if="isLoading"></app-loader>
     <section>
-
-      <!-- <div class="ct-chart ct-perfect-fourth"></div> -->
-
-      <button v-if="!isLoading" class="uppercase m-4 px-8 py-2 rounded-full border border-blue-600 text-blue-600 max-w-max shadow-sm hover:shadow-lg" @click="load()">Reload</button>
+      <button v-if="!isLoading" class="uppercase m-4 px-8 py-2 rounded-full border border-blue-600 text-blue-600 max-w-max shadow-sm hover:shadow-lg" @click="load()">
+        Reload
+      </button>
       <div class="brawl-wrap">
         <div class="brawl" v-html="brawlMe"></div>
         <div class="brawl" v-html="brawlContest"></div>
@@ -75,7 +74,7 @@ export default defineComponent({
         },
         series: {
           'series-1': {
-            lineSmooth: Chartist.Interpolation.simple(),
+            lineSmooth: Chartist.Interpolation.none(),
             showArea: false
           }
         }
@@ -83,7 +82,7 @@ export default defineComponent({
 
       window.setTimeout(() => {
         const _ = new Chartist.Line(`.chart-${id}`, data, options)
-      }, 5000)
+      }, 3000)
     }
 
     const formatForTemplate = function (html, id) {
@@ -98,7 +97,6 @@ export default defineComponent({
           if (element.getAttribute('data-cfsrc')) {
             element.src = element.getAttribute('data-cfsrc')
           }
-          // eslint disable next line
           element.style = ''
           if (element.getAttribute('data-cfstyle')) {
             element.style = element.getAttribute('data-cfstyle')
@@ -202,20 +200,20 @@ export default defineComponent({
   height: 500px !important;
 }
 
-.chart-main,
-.ct-chart.ct-perfect-fourth {
+.brawl-wrap .chart-main {
   background: transparent;
+  height: 200px;
 }
 
 .ct-series-a .ct-line {
-  stroke: #f1f1f1;
+  stroke: rgb(255, 151, 39);
   stroke-width: 4px;
   fill: transparent;
 }
 
 .ct-series-a .ct-point {
   stroke: #f1f1f1;
-  stroke-width: 4px;
+  stroke-width: 5px;
   stroke-linecap: round;
 }
 
