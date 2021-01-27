@@ -1,0 +1,1 @@
+import{d as a,p as s,a as o,o as e,c as t,w as b,b as d}from"./index.4050bb78.js";var r=a({name:"Home",setup:()=>({})});const c=b("data-v-159b413b");s("data-v-159b413b");const n={class:"home"},l=d("img",{alt:"Vue logo",src:"./resources/logo.3b714202.png"},null,-1);o();const m=c(((a,s,o,b,d,r)=>(e(),t("div",n,[l]))));r.render=m,r.__scopeId="data-v-159b413b";export default r;
