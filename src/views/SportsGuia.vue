@@ -120,14 +120,13 @@ export default defineComponent({
 
 .guia {
   width: 100%;
-  margin: 0 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .item {
-  width: 100%;
+  width: calc(100% - 20px);
   max-width: 550px;
   box-shadow: 2px 2px 15px 0px #343434;
   margin: 10px;
@@ -135,14 +134,12 @@ export default defineComponent({
   padding: 15px;
   border-radius: 10px;
 
-  &.close:first-of-type,
-  &:first-of-type {
+  &.close:first-of-type {
     border-radius: 10px 10px 0 0;
     margin-top: 15px;
   }
 
-  &.close:last-of-type,
-  &:last-of-type {
+  &.close:last-of-type {
     border-radius: 0 0 10px 10px;
     margin-bottom: 15px;
   }
