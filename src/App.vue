@@ -18,8 +18,9 @@
             <div class="hidden sm:block sm:ml-6">
               <div class="flex space-x-4">
                 <router-link to="/" class="px-3 py-2 rounded-md text-sm font-medium" :class="navClass('/')">Home</router-link>
-                <router-link to="/brawlstars" class="px-3 py-2 rounded-md text-sm font-medium" :class="navClass('/brawlstars')">Brawlstars</router-link>
                 <router-link to="/jobs" class="px-3 py-2 rounded-md text-sm font-medium" :class="navClass('/jobs')">Jobs</router-link>
+                <router-link to="/sports-guia" class="px-3 py-2 rounded-md text-sm font-medium" :class="navClass('/sports-guia')">Sports Guia</router-link>
+                <router-link to="/brawlstars" class="px-3 py-2 rounded-md text-sm font-medium" :class="navClass('/brawlstars')">Brawlstars</router-link>
               </div>
             </div>
           </div>
@@ -28,8 +29,9 @@
       <div class="sm:hidden" :class="{'hidden': !isNavOpen}">
         <div class="px-2 pt-2 pb-3 space-y-1">
           <router-link to="/" class="block px-3 py-2 rounded-md text-base font-medium" :class="navClass('/')">Home</router-link>
-          <router-link to="/brawlstars" class="block px-3 py-2 rounded-md text-base font-medium" :class="navClass('/brawlstars')">Brawlstars</router-link>
           <router-link to="/jobs" class="block px-3 py-2 rounded-md text-base font-medium" :class="navClass('/jobs')">Jobs</router-link>
+          <router-link to="/sports-guia" class="block px-3 py-2 rounded-md text-base font-medium" :class="navClass('/sports-guia')">Sports Guia</router-link>
+          <router-link to="/brawlstars" class="block px-3 py-2 rounded-md text-base font-medium" :class="navClass('/brawlstars')">Brawlstars</router-link>
         </div>
       </div>
     </nav>
@@ -40,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({

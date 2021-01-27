@@ -6,6 +6,7 @@ import { store as indeed, State as IndeedState, IndeedStore, IndeedInActionTypes
 import { store as linkedIn, State as LinkedInState, LinkedInStore, LinkedInActionTypes } from './linkedIn'
 import { store as sudOuestJob, State as SudOuestJobState, SudOuestJobStore, SudOuestJobActionTypes } from './sudOuestJob'
 import { store as welcomeToTheJungle, State as WelcomeToTheJungleState, WelcomeToTheJungleStore, WelcomeToTheJungleActionTypes } from './welcomeToTheJungle'
+import { store as sportsGuia, State as SportsGuiaState, SportsGuiaStore, SportsGuiaActionTypes } from './sportsGuia'
 
 
 export type RootState = {
@@ -14,7 +15,8 @@ export type RootState = {
   linkedIn: LinkedInState,
   indeed: IndeedState,
   sudOuestJob: SudOuestJobState,
-  welcomeToTheJungle: WelcomeToTheJungleState
+  welcomeToTheJungle: WelcomeToTheJungleState,
+  sportGuia: SportsGuiaState
 }
 
 export type Store = DocumentsStore<Pick<RootState, 'documents'>>
@@ -23,6 +25,7 @@ export type Store = DocumentsStore<Pick<RootState, 'documents'>>
  & IndeedStore<Pick<RootState, 'indeed'>>
  & SudOuestJobStore<Pick<RootState, 'sudOuestJob'>>
  & WelcomeToTheJungleStore<Pick<RootState, 'welcomeToTheJungle'>>
+ & SportsGuiaStore<Pick<RootState, 'sportGuia'>>
 
 export const store = createStore({
   modules: {
@@ -31,7 +34,8 @@ export const store = createStore({
     linkedIn,
     indeed,
     sudOuestJob,
-    welcomeToTheJungle
+    welcomeToTheJungle,
+    sportsGuia
   }
 })
 
@@ -41,7 +45,8 @@ export const ActionsTypes = {
   IndeedInActionTypes,
   LinkedInActionTypes,
   SudOuestJobActionTypes,
-  WelcomeToTheJungleActionTypes
+  WelcomeToTheJungleActionTypes,
+  SportsGuiaActionTypes
 }
 
 export default {
