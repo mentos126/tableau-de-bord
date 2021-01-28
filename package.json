@@ -4,7 +4,7 @@
   "homepage": "https://github.com/mentos126/tableau-de-bord",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=./",
+    "build": "vite build --base=./ --assetsDir=./resources",
     "deploy": "node ./node_modules/vue-gh-pages/index.js --branch gh-pages -m \"Deploy to gh-pages.\""
   },
   "dependencies": {

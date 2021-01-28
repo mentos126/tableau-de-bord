@@ -4,6 +4,14 @@
     <section v-else >
       <div class="bg-white w-full flex relative justify-around flex-wrap items-center mx-auto px-8 h-full">
         <button
+          type="button"
+          class="inline-flex rounded-full px-4 m-1 p-2 rounded leading-none flex items-center"
+          :class="selectedNav('now')"
+          @click="selectNow()"
+          >
+            Agora
+        </button>
+        <button
           v-for="sportGuia in sportsGuiaSelection"
           :key="sportGuia"
           type="button"
@@ -14,7 +22,23 @@
             {{ sportsGuiaSelectionTraduction[sportGuia] }}
         </button>
       </div>
-      <div class="guia" v-html="guia"></div>
+      <div class="guia">
+        <div
+          v-for="(channel, index) in guia"
+          :key="index"
+          class="item channel"
+          :class="{'now': channel.now, 'close': channel.close}"
+          @click="channel.close = !channel.close"
+          >
+          <b v-if="selected == 'now'" class="channel key">{{ sportsGuiaSelectionTraduction[channel.key] }}</b>
+          <br v-if="selected == 'now'">
+          <b>{{ channel.hours }} - {{ channel.title }}</b>
+          <br v-if="!channel.close">
+          <div v-if="!channel.close" class="description">
+            {{ channel.description }}
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 </template>
@@ -35,8 +59,8 @@ export default defineComponent({
   setup () {
     const store = useStore()
     const isLoading = ref(true)
-    const selected = ref('sport-tv1')
-    const guia = ref(null)
+    const selected = ref('now')
+    const guia = ref([])
 
     const selectedNav = channel => {
       return channel === selected.value ? 'bg-blue-600 text-white' : 'bg-gray-50 text-black'
@@ -47,56 +71,94 @@ export default defineComponent({
       load()
     }
 
-    const formatForTemplate = function (html) {
+    const selectNow = () => {
+      selected.value = 'now'
+      load()
+    }
+
+    const formatForSingle = function (html) {
       const res = stringToHTML(html)
-      let programs = ''
+      const programs = []
       const list = res.querySelectorAll('.channel_data')
       for (let el = 0; el < list.length; el++) {
         removeHtmlElement(list[el], 'span, br')
-        programs += `
-        <div class="item close ${list[el].style.background ? 'now' : ''}">
-          <div class="title">
-            ${list[el].children[0].innerHTML} - ${list[el].children[1].innerHTML}
-          </div>
-          <div class="description">
-            ${list[el].children[2].innerHTML}
-          </div>
-        </div>
-        `
+        programs.push({
+          hours: list[el].children[0].firstChild.innerHTML,
+          title: list[el].children[1].firstChild.innerHTML,
+          description: list[el].children[2].innerHTML,
+          now: list[el].style.background,
+          close: true
+        })
       }
       return programs
     }
 
-    const load = async () => {
+    const formatForNow = html => {
+      const res = stringToHTML(html)
+      const list = res.querySelectorAll('.channel_data')
+
+      for (let el = 0; el < list.length; el++) {
+        if (list[el].style.background) {
+          return {
+            hours: list[el].querySelector('.icon-clock').parentElement.children[1].innerHTML,
+            title: list[el].querySelector('.ml10.black_gray').innerHTML,
+            description: list[el].querySelector('.channel_desc ').innerHTML,
+            close: true,
+            now: null
+          }
+        }
+      }
+    }
+
+    const load = () => {
       isLoading.value = true
-      guia.value = null
+      guia.value = []
+      if (selected.value === 'now') {
+        loadNow()
+      } else {
+        loadSingle()
+      }
+      isLoading.value = false
+    }
+
+    const loadSingle = async () => {
       try {
         const result = await store.dispatch(`sportsGuia/${ActionsTypes.SportsGuiaActionTypes.GET_CHANNEL_GUIA}`, selected.value)
-        guia.value = formatForTemplate(result)
+        guia.value = formatForSingle(result)
       } catch (error: unknown) {
         console.log(error)
       }
-      isLoading.value = false
-      window.setTimeout(() => onClickItem(), 500)
     }
 
-    const onClickItem = () => {
-      const items = document.querySelectorAll('.item')
-      items.forEach(item => {
-        item.addEventListener('click', () => {
-          const classes = item.classList
-          if (classes.contains('close')) {
-            classes.remove('close')
-          } else {
-            classes.add('close')
+    const getNowData = async () => {
+      const output = Object.entries(sportsGuiaSelection).map(([key, value]) => ({ key, value }))
+      return Promise.all(output.map(({ value }) => {
+        try {
+          return {
+            key: value,
+            value: store.dispatch(`sportsGuia/${ActionsTypes.SportsGuiaActionTypes.GET_CHANNEL_GUIA}`, value)
           }
-        })
-      })
+        } catch (error) {
+          return {
+            key: value,
+            value: ''
+          }
+        }
+      }))
     }
 
-    onMounted(() => {
-      load()
-    })
+    const loadNow = async () => {
+      const data = await getNowData()
+      for (const datum of data) {
+        const channel = await datum.value
+        guia.value.push({
+          key: datum.key,
+          ...formatForNow(channel)
+        })
+      }
+    }
+
+    onMounted(() => { load() })
 
     return {
       load,
@@ -106,7 +168,8 @@ export default defineComponent({
       sportsGuiaSelection,
       sportsGuiaSelectionTraduction,
       selectedNav,
-      selectNav
+      selectNav,
+      selectNow
     }
   }
 })
@@ -125,7 +188,11 @@ export default defineComponent({
   align-items: center;
 }
 
-.item {
+.channel.key {
+  color: rgb(173, 39, 39);
+}
+
+.item.channel {
   width: calc(100% - 20px);
   max-width: 550px;
   box-shadow: 2px 2px 15px 0px #343434;
@@ -147,10 +214,6 @@ export default defineComponent({
   &.close {
     margin: 0;
     border-radius: 0;
-
-    .description {
-      display: none;
-    }
   }
 }
 
