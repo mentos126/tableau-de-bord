@@ -110,13 +110,13 @@ export default defineComponent({
       }
     }
 
-    const load = () => {
+    const load = async () => {
       isLoading.value = true
       guia.value = []
       if (selected.value === 'now') {
-        loadNow()
+        await loadNow()
       } else {
-        loadSingle()
+        await loadSingle()
       }
       isLoading.value = false
     }

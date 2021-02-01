@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
@@ -50,14 +50,24 @@ export default defineComponent({
   setup () {
     const router = useRouter()
     const isNavOpen = ref(false)
+    const lastRoute = ref(null)
 
     const toggleIsNavOpen = () => {
       isNavOpen.value = !isNavOpen.value
     }
 
     const navClass = (route: string) => {
+      if (router.currentRoute.value.fullPath !== lastRoute.value) {
+        lastRoute.value = router.currentRoute.value.fullPath
+        isNavOpen.value = false
+      }
+
       return router.currentRoute.value.fullPath === route ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
     }
+
+    onMounted(() => {
+      lastRoute.value = router.currentRoute.value.fullPath
+    })
 
     return {
       isNavOpen,
