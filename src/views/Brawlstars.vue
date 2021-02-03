@@ -93,6 +93,12 @@ export default defineComponent({
       for (let el = 0; el < stat.length; el++) {
         removeHtmlElement(stat[el], 'script, link, noscript, canvas')
 
+        stat[el].querySelectorAll('.summary-box').forEach(element => {
+          if (element.getAttribute('href')) {
+            element.removeAttribute('href')
+          }
+        })
+
         stat[el].querySelectorAll('img').forEach(element => {
           if (element.getAttribute('data-cfsrc')) {
             element.src = element.getAttribute('data-cfsrc')
@@ -220,6 +226,10 @@ export default defineComponent({
 .ct-labels {
   font-weight: bold;
   color: #f1f1f1;
+}
+
+.col-3.col-sm-2.col-md-2.col-lg-1.mb-2 {
+  max-width: 150px;
 }
 
 </style>
