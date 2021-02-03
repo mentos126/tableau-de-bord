@@ -2,9 +2,6 @@
   <div class="app-brawlstars">
     <app-loader v-if="isLoading"></app-loader>
     <section>
-      <button v-if="!isLoading" class="uppercase m-4 px-8 py-2 rounded-full border border-blue-600 text-blue-600 max-w-max shadow-sm hover:shadow-lg" @click="load()">
-        Reload
-      </button>
       <div class="brawl-wrap">
         <div class="brawl" v-html="brawlMe"></div>
         <div class="brawl" v-html="brawlContest"></div>
