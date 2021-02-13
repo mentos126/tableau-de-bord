@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col -bottom-0">
+  <div class="flex flex-col w-full justify-center items-center">
     <button
       type="button"
       class="border text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none focus:outline-none focus:shadow-outline"
@@ -9,7 +9,7 @@
       {{ isListening ? 'En enregistrement' : 'Enregistrer' }}
     </button>
     <p v-if="error">Error: {{ error }}</p>
-    <p v-else class="border border-gray-600 rounded-md p-4">{{ note }}</p>
+    <p v-if="!error && note" class="border border-gray-600 rounded-md p-4">{{ note }}</p>
   </div>
 </template>
 

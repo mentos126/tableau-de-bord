@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home w-full flex justify-center items-center">
     <img alt="Vue logo" src="../assets/logo.png">
   </div>
 </template>

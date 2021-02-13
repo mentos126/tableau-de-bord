@@ -46,7 +46,7 @@
         </div>
       </div>
     </nav>
-    <div class="bg-gray-100 flex justify-center items-center flex-grow">
+    <div class="bg-gray-100 flex flex-grow">
       <router-view :key="$route.fullPath"/>
     </div>
   </div>
