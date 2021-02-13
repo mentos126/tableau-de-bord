@@ -1,33 +1,38 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 const Home = () => import('../views/Home.vue')
 const Brawlstars = () => import('../views/Brawlstars.vue')
 const JobsList = () => import('../views/JobsList.vue')
 const SportsGuia = () => import('../views/SportsGuia.vue')
 const TestRecognition = () => import('../views/SpeechRecognitionTest.vue')
 
-const routes = [
+const routes: RouteRecordRaw  = [
   {
-    path: '/brawlstars',
-    name: 'Brawlstars',
-    component:  Brawlstars
-  },
-  {
-    path: '/jobs',
-    name: 'Jobs',
-    component: JobsList
-  },
-  {
-    path: '/sports-guia',
-    name: 'sportsGuia',
-    component: SportsGuia
-  },
-  {
+    label: 'Test Recognition',
     path: '/test-recognition',
     name: 'TestRecognition',
     component: TestRecognition
   },
   {
-    path: '',
+    label: 'Brawlstar',
+    path: '/brawlstars',
+    name: 'Brawlstars',
+    component: Brawlstars
+  },
+  {
+    label: 'Guia Sport',
+    path: '/sports-guia',
+    name: 'sportsGuia',
+    component: SportsGuia
+  },
+  {
+    label: 'Jobs',
+    path: '/jobs',
+    name: 'Jobs',
+    component: JobsList
+  },
+  {
+    label: 'Home',
+    path: '/:pathMatch(.*)*',
     name: 'Home',
     component: Home
   }

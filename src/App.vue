@@ -17,11 +17,15 @@
           <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             <div class="hidden sm:block sm:ml-6">
               <div class="flex space-x-4">
-                <router-link to="/" class="px-3 py-2 rounded-md text-sm font-medium" :class="navClass('/')">Home</router-link>
-                <router-link to="/jobs" class="px-3 py-2 rounded-md text-sm font-medium" :class="navClass('/jobs')">Jobs</router-link>
-                <router-link to="/sports-guia" class="px-3 py-2 rounded-md text-sm font-medium" :class="navClass('/sports-guia')">Sports Guia</router-link>
-                <router-link to="/brawlstars" class="px-3 py-2 rounded-md text-sm font-medium" :class="navClass('/brawlstars')">Brawlstars</router-link>
-                <router-link to="/test-recognition" class="px-3 py-2 rounded-md text-sm font-medium" :class="navClass('/test-recognition')">Test Recognition</router-link>
+                <router-link
+                  v-for="route in $router.options.routes.slice().reverse()"
+                  :key="route.name"
+                  :to="route.name === 'Home' ? '/' : route.path"
+                  class="text-sm"
+                  :class="navClass(route)"
+                  >
+                  {{ route.label }}
+                </router-link>
               </div>
             </div>
           </div>
@@ -29,11 +33,16 @@
       </div>
       <div class="sm:hidden" :class="{'hidden': !isNavOpen}">
         <div class="px-2 pt-2 pb-3 space-y-1">
-          <router-link to="/" class="block px-3 py-2 rounded-md text-base font-medium" :class="navClass('/')">Home</router-link>
-          <router-link to="/jobs" class="block px-3 py-2 rounded-md text-base font-medium" :class="navClass('/jobs')">Jobs</router-link>
-          <router-link to="/sports-guia" class="block px-3 py-2 rounded-md text-base font-medium" :class="navClass('/sports-guia')">Sports Guia</router-link>
-          <router-link to="/brawlstars" class="block px-3 py-2 rounded-md text-base font-medium" :class="navClass('/brawlstars')">Brawlstars</router-link>
-          <router-link to="/test-recognition" class="block px-3 py-2 rounded-md text-base font-medium" :class="navClass('/test-recognition')">Test Recognition</router-link>
+          <router-link
+            v-for="route in $router.options.routes.slice().reverse()"
+            :key="route.name"
+            :to="route.name === 'Home' ? '/' : route.path"
+            class="block  text-base"
+            :class="navClass(route)"
+            @click="clickLink()"
+            >
+            {{ route.label }}
+          </router-link>
         </div>
       </div>
     </nav>
@@ -45,7 +54,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { RouteRecordRaw, useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'App',
@@ -58,13 +67,14 @@ export default defineComponent({
       isNavOpen.value = !isNavOpen.value
     }
 
-    const navClass = (route: string) => {
-      if (router.currentRoute.value.fullPath !== lastRoute.value) {
-        lastRoute.value = router.currentRoute.value.fullPath
-        isNavOpen.value = false
-      }
+    const navClass = (route: RouteRecordRaw) => {
+      const base = 'px-3 py-2 rounded-md font-medium'
 
-      return router.currentRoute.value.fullPath === route ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+      return `${base} + ${router.currentRoute.value.name === route.name ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`
+    }
+
+    const clickLink = () => {
+      isNavOpen.value = false
     }
 
     onMounted(() => {
@@ -74,7 +84,8 @@ export default defineComponent({
     return {
       isNavOpen,
       toggleIsNavOpen,
-      navClass
+      navClass,
+      clickLink
     }
   }
 })
