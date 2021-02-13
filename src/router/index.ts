@@ -3,6 +3,7 @@ const Home = () => import('../views/Home.vue')
 const Brawlstars = () => import('../views/Brawlstars.vue')
 const JobsList = () => import('../views/JobsList.vue')
 const SportsGuia = () => import('../views/SportsGuia.vue')
+const TestRecognition = () => import('../views/SpeechRecognitionTest.vue')
 
 const routes = [
   {
@@ -21,10 +22,15 @@ const routes = [
     component: SportsGuia
   },
   {
+    path: '/test-recognition',
+    name: 'TestRecognition',
+    component: TestRecognition
+  },
+  {
     path: '',
     name: 'Home',
     component: Home
-  },
+  }
 ]
 
 const router = createRouter({

@@ -21,6 +21,7 @@
                 <router-link to="/jobs" class="px-3 py-2 rounded-md text-sm font-medium" :class="navClass('/jobs')">Jobs</router-link>
                 <router-link to="/sports-guia" class="px-3 py-2 rounded-md text-sm font-medium" :class="navClass('/sports-guia')">Sports Guia</router-link>
                 <router-link to="/brawlstars" class="px-3 py-2 rounded-md text-sm font-medium" :class="navClass('/brawlstars')">Brawlstars</router-link>
+                <router-link to="/test-recognition" class="px-3 py-2 rounded-md text-sm font-medium" :class="navClass('/test-recognition')">Test Recognition</router-link>
               </div>
             </div>
           </div>
@@ -32,6 +33,7 @@
           <router-link to="/jobs" class="block px-3 py-2 rounded-md text-base font-medium" :class="navClass('/jobs')">Jobs</router-link>
           <router-link to="/sports-guia" class="block px-3 py-2 rounded-md text-base font-medium" :class="navClass('/sports-guia')">Sports Guia</router-link>
           <router-link to="/brawlstars" class="block px-3 py-2 rounded-md text-base font-medium" :class="navClass('/brawlstars')">Brawlstars</router-link>
+          <router-link to="/test-recognition" class="block px-3 py-2 rounded-md text-base font-medium" :class="navClass('/test-recognition')">Test Recognition</router-link>
         </div>
       </div>
     </nav>
