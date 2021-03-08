@@ -11,10 +11,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, Ref, ref } from 'vue'
 import { removeHtmlElement, stringToHTML } from '../helpers'
 import { useStore } from '../hooks/store'
-import { ActionsTypes } from '../store'
+import { ActionsTypes, Store } from '../store'
 import AppLoader from '../components/AppLoader.vue'
 import Chartist from 'chartist'
 
@@ -24,13 +24,19 @@ export default defineComponent({
     AppLoader
   },
   setup () {
-    const store = useStore()
-    const isLoading = ref(true)
-    const brawlMe = ref(null)
-    const brawlContest = ref(null)
+    const store: Store = useStore()
+    const isLoading: Ref<boolean> = ref(true)
+    const brawlMe: Ref<string> = ref(null)
+    const brawlContest: Ref<string> = ref(null)
 
-    const loadChart = (html, id) => {
-      let chartData = null
+    const loadChart = (html: Document, id: string) => {
+      let chartData: {
+        labels: any;
+        data: any;
+      } = {
+        labels: null,
+        data: null
+      }
       const scripts = html.querySelectorAll('script')
       for (let i = 0; i < scripts.length; i++) {
         if (
@@ -38,9 +44,9 @@ export default defineComponent({
           scripts[i].outerHTML.includes('labels') &&
           scripts[i].outerHTML.includes('data')
         ) {
-          const script = scripts[i]
+          const script: HTMLScriptElement = scripts[i]
           const regexp = /\{.*(data:\{.*\})\}/gmi
-          let exec = script.text.match(regexp)[0]
+          let exec: string = script.text.match(regexp)[0]
           exec = exec.replace(/\s/gm, '')
           exec = exec.replace(/'/gm, '"')
           exec = exec.replace(/([a-zA-Z]+):/gm, (_, p1) => `"${p1}":`)
@@ -82,7 +88,7 @@ export default defineComponent({
       }, 3000)
     }
 
-    const formatForTemplate = function (html, id) {
+    const formatForTemplate = function (html: string, id: string): string {
       const res = stringToHTML(html)
       loadChart(res, id)
       let profile = ''
@@ -115,8 +121,8 @@ export default defineComponent({
       brawlMe.value = null
       brawlContest.value = null
       try {
-        const resultLeft = await store.dispatch(`brawlstars/${ActionsTypes.BrawlstarsActionTypes.GET_BRAWLSTARS_PROFILE}`, 'PQJQ9L98U')
-        const resultRight = await store.dispatch(`brawlstars/${ActionsTypes.BrawlstarsActionTypes.GET_BRAWLSTARS_PROFILE}`, '9VJYP289Q')
+        const resultLeft: string = await store.dispatch(`brawlstars/${ActionsTypes.BrawlstarsActionTypes.GET_BRAWLSTARS_PROFILE}`, 'PQJQ9L98U')
+        const resultRight: string = await store.dispatch(`brawlstars/${ActionsTypes.BrawlstarsActionTypes.GET_BRAWLSTARS_PROFILE}`, '9VJYP289Q')
         brawlMe.value = formatForTemplate(resultLeft, 'PQJQ9L98U')
         brawlContest.value = formatForTemplate(resultRight, '9VJYP289Q')
       } catch (error: unknown) {

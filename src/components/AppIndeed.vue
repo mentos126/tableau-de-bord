@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, toRefs, watch } from 'vue'
+import { defineComponent, onMounted, Ref, ref, toRefs, watch } from 'vue'
 import { removeHtmlElement, stringToHTML } from '../helpers'
 
 export default defineComponent({
@@ -17,21 +17,24 @@ export default defineComponent({
   },
   setup (props) {
     const { html } = toRefs(props)
-
-    const indeed = ref(null)
+    const indeed: Ref<string> = ref(null)
 
     const tranformHtml = () => {
       const indeedBody = stringToHTML(html.value).querySelectorAll('.jobsearch-SerpJobCard')
       let jobs = ''
+
       for (let el = 0; el < indeedBody.length; el++) {
         removeHtmlElement(indeedBody[el], '.jobCardShelf, .tt_set')
+
         indeedBody[el].querySelectorAll('a').forEach(element => {
           if (element.getAttribute('href')) {
             element.href = 'https://fr.indeed.com' + element.getAttribute('href')
           }
         })
+
         jobs += '<div class="item">' + indeedBody[el].outerHTML + '</div>'
       }
+
       indeed.value = jobs
     }
 

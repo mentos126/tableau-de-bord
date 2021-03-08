@@ -44,12 +44,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, Ref, ref } from 'vue'
 import { removeHtmlElement, stringToHTML } from '../helpers'
 import { sportsGuiaSelection, sportsGuiaSelectionTraduction } from '../constants'
 import { useStore } from '../hooks/store'
-import { ActionsTypes } from '../store'
+import { ActionsTypes, Store } from '../store'
 import AppLoader from '../components/AppLoader.vue'
+
+type guiaItem = {
+  hours: string;
+  title: string;
+  description: string,
+  close: boolean,
+  now: boolean
+}
+
+type guiaNowItem = {
+  key: string;
+  hours: string;
+  title: string;
+  description: string,
+  close: boolean,
+  now: boolean
+}
 
 export default defineComponent({
   name: 'AppSportsGuia',
@@ -57,16 +74,16 @@ export default defineComponent({
     AppLoader
   },
   setup () {
-    const store = useStore()
-    const isLoading = ref(true)
-    const selected = ref('now')
-    const guia = ref([])
+    const store: Store = useStore()
+    const isLoading: Ref<boolean> = ref(true)
+    const selected: Ref<string> = ref('now')
+    const guia: Ref<guiaItem[] | guiaNowItem[]> = ref([])
 
-    const selectedNav = channel => {
+    const selectedNav = (channel: string): string => {
       return channel === selected.value ? 'bg-blue-600 text-white' : 'bg-gray-50 text-black'
     }
 
-    const selectNav = channel => {
+    const selectNav = (channel: string) => {
       selected.value = channel
       load()
     }
@@ -74,40 +91,6 @@ export default defineComponent({
     const selectNow = () => {
       selected.value = 'now'
       load()
-    }
-
-    const formatForSingle = function (html) {
-      const res = stringToHTML(html)
-      const programs = []
-      const list = res.querySelectorAll('.channel_data')
-      for (let el = 0; el < list.length; el++) {
-        removeHtmlElement(list[el], 'span, br')
-        programs.push({
-          hours: list[el].children[0].firstChild.innerHTML,
-          title: list[el].children[1].firstChild.innerHTML,
-          description: list[el].children[2].innerHTML,
-          now: list[el].style.background,
-          close: true
-        })
-      }
-      return programs
-    }
-
-    const formatForNow = html => {
-      const res = stringToHTML(html)
-      const list = res.querySelectorAll('.channel_data')
-
-      for (let el = 0; el < list.length; el++) {
-        if (list[el].style.background) {
-          return {
-            hours: list[el].querySelector('.icon-clock').parentElement.children[1].innerHTML,
-            title: list[el].querySelector('.ml10.black_gray').innerHTML,
-            description: list[el].querySelector('.channel_desc ').innerHTML,
-            close: true,
-            now: null
-          }
-        }
-      }
     }
 
     const load = async () => {
@@ -130,8 +113,38 @@ export default defineComponent({
       }
     }
 
-    const getNowData = async () => {
-      const output = Object.entries(sportsGuiaSelection).map(([key, value]) => ({ key, value }))
+    const formatForSingle = (html: string): guiaItem[] => {
+      const res: Document = stringToHTML(html)
+      const programs: guiaItem[] = []
+      const list = res.querySelectorAll('.channel_data')
+
+      for (let el = 0; el < list.length; el++) {
+        removeHtmlElement(list[el], 'span, br')
+        programs.push({
+          hours: list[el].children[0].firstChild.innerHTML,
+          title: list[el].children[1].firstChild.innerHTML,
+          description: list[el].children[2].innerHTML,
+          now: list[el].style.background,
+          close: true
+        })
+      }
+
+      return programs
+    }
+
+    const loadNow = async () => {
+      const data = await getNowData()
+      for (const datum of data) {
+        const channel = await datum.value
+        guia.value.push({
+          key: datum.key,
+          ...formatForNow(channel)
+        })
+      }
+    }
+
+    const getNowData = async (): Promise<{key: string; value: string | Promise<string>;}[]> => {
+      const output: {key: string; value: string;}[] = Object.entries(sportsGuiaSelection).map(([key, value]) => ({ key, value }))
       return Promise.all(output.map(({ value }) => {
         try {
           return {
@@ -147,14 +160,20 @@ export default defineComponent({
       }))
     }
 
-    const loadNow = async () => {
-      const data = await getNowData()
-      for (const datum of data) {
-        const channel = await datum.value
-        guia.value.push({
-          key: datum.key,
-          ...formatForNow(channel)
-        })
+    const formatForNow = (html: string): guiaItem => {
+      const res = stringToHTML(html)
+      const list = res.querySelectorAll('.channel_data')
+
+      for (let el = 0; el < list.length; el++) {
+        if (list[el].style.background) {
+          return {
+            hours: list[el].querySelector('.icon-clock').parentElement.children[1].innerHTML,
+            title: list[el].querySelector('.ml10.black_gray').innerHTML,
+            description: list[el].querySelector('.channel_desc ').innerHTML,
+            close: true,
+            now: null
+          }
+        }
       }
     }
 

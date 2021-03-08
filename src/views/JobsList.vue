@@ -58,9 +58,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, Ref, ref } from 'vue'
 import { useStore } from '../hooks/store'
-import { ActionsTypes } from '../store'
+import { ActionsTypes, Store } from '../store'
 import AppIndeed from '../components/AppIndeed.vue'
 import AppLinkedIn from '../components/AppLinkedIn.vue'
 import AppSudOuestJob from '../components/AppSudOuestJob.vue'
@@ -75,16 +75,16 @@ export default defineComponent({
     AppWelcomeToTheJungle
   },
   setup () {
-    const logged = ref(false)
-    const password = ref('')
-    const open = ref(false)
-    const selected = ref('')
+    const logged: Ref<boolean> = ref(false)
+    const password: Ref<string> = ref('')
+    const open: Ref<boolean> = ref(false)
+    const selected: Ref<string> = ref('')
 
-    const store = useStore()
-    const linkedIn = ref(null)
-    const indeed = ref(null)
-    const sudOuestJob = ref(null)
-    const welcomeToTheJungle = ref(null)
+    const store: Store = useStore()
+    const linkedIn: Ref<string> = ref(null)
+    const indeed: Ref<string> = ref(null)
+    const sudOuestJob: Ref<string> = ref(null)
+    const welcomeToTheJungle: Ref<string> = ref(null)
 
     const onSubmit = () => {
       if (password.value === 'dosmentos') {
@@ -101,7 +101,7 @@ export default defineComponent({
       welcomeToTheJungle.value = await store.dispatch('welcomeToTheJungle/' + ActionsTypes.WelcomeToTheJungleActionTypes.GET_JOBS, null)
     })
 
-    const getLinkClasses = (link: string) => {
+    const getLinkClasses = (link: string): string => {
       const idemClasses = 'block px-4 py-2 mt-2 text-sm font-semibold text-gray-900 rounded-lg dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline'
       const selectedClasses = 'bg-gray-200 dark-mode:bg-gray-700'
       const notSelectedClasse = 'bg-transparent dark-mode:bg-transparent'
@@ -109,6 +109,7 @@ export default defineComponent({
       if (link === selected.value) {
         return `${selectedClasses} ${idemClasses}`
       }
+
       return `${notSelectedClasse} ${idemClasses}`
     }
 
@@ -132,5 +133,6 @@ export default defineComponent({
 .app-jobs-list {
   display: flex;
   justify-content: space-around;
+  color: #0e0e0e;
 }
 </style>

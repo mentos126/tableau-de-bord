@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, toRefs, watch } from 'vue'
+import { defineComponent, onMounted, Ref, ref, toRefs, watch } from 'vue'
 import { removeHtmlElement, stringToHTML } from '../helpers'
 
 export default defineComponent({
@@ -17,12 +17,12 @@ export default defineComponent({
   },
   setup (props) {
     const { html } = toRefs(props)
-
-    const sudOuestJob = ref()
+    const sudOuestJob: Ref<string> = ref(null)
 
     const tranformHtml = () => {
       const sudOuestJobBody = stringToHTML(html.value).querySelectorAll('.content.nocard.autonome .action.crushed.autonome.autopadding')
       let jobs = ''
+
       for (let el = 0; el < sudOuestJobBody.length; el++) {
         removeHtmlElement(sudOuestJobBody[el], '.bookmark')
 
@@ -41,13 +41,15 @@ export default defineComponent({
           }
         })
 
-        sudOuestJobBody[el].querySelectorAll('h3 a').forEach(element => {
+        let anchors: HTMLAnchorElement[] = <any>sudOuestJobBody[el].querySelectorAll('h3 a') as HTMLAnchorElement[]
+        
+        anchors.forEach((element: HTMLAnchorElement) => {
           if (element.getAttribute('href')) {
             const link = 'https://www.sudouestjob.com/' + element.getAttribute('href')
             const action = element.parentElement.parentElement.parentElement.querySelector('.action')
             const innerHTML = action.firstElementChild
             action.removeChild(action.firstChild)
-            const a = document.createElement('a')
+            const a = document.createElement('a') as HTMLAnchorElement
             a.href = link
             a.appendChild(innerHTML)
             a.target = '_blank'
@@ -59,6 +61,7 @@ export default defineComponent({
 
         jobs += '<div class="item">' + sudOuestJobBody[el].innerHTML + '</div>'
       }
+
       sudOuestJob.value = jobs
     }
 

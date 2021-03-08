@@ -1,11 +1,18 @@
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, Ref, ref, watch } from 'vue'
 
-export function useSpeechRecognition() {
-  const isListening = ref(false)
-  const note = ref('')
-  const error = ref(null)
+type useSpeechRecognitionType = {  
+  toggleListening: () => void,
+  isListening: Ref<boolean>,
+  note: Ref<string>,
+  error: Ref<SpeechRecognitionErrorCode>
+}
 
-  let recognition = null
+export function useSpeechRecognition(): useSpeechRecognitionType {
+  const isListening: Ref<boolean> = ref(false)
+  const note: Ref<string> = ref('')
+  const error: Ref<SpeechRecognitionErrorCode> = ref(null)
+
+  let recognition: SpeechRecognition = null
 
   const toggleListening = () => {
     isListening.value = !isListening.value
@@ -23,8 +30,6 @@ export function useSpeechRecognition() {
     handleListening()
   })
 
- 
-
   onMounted(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
     recognition = new SpeechRecognition()
@@ -32,8 +37,7 @@ export function useSpeechRecognition() {
     recognition.interimResults = true
     recognition.lang = 'fr-FR'
 
-    recognition.onresult = event => {
-      console.log(event.results)
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
       const transcript = Array.from(event.results)
         .map(result => result[0].transcript)
         .join('')
@@ -41,7 +45,7 @@ export function useSpeechRecognition() {
       note.value = transcript
     }
   
-    recognition.onerror = event => {
+    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
       isListening.value = false
       error.value = event.error
     }
