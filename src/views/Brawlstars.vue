@@ -92,9 +92,22 @@ export default defineComponent({
       const res = stringToHTML(html)
       loadChart(res, id)
       let profile = ''
+      let isImgProfile = false
       const stat = res.querySelectorAll('div.container-fluid.content-container.px-0.py-0.mb-0 .post-type1')
       for (let el = 0; el < stat.length; el++) {
-        removeHtmlElement(stat[el], 'script, link, noscript, canvas')
+        removeHtmlElement(stat[el], 'script, link, noscript, canvas, a.link.opacity img')
+
+        const btn: HTMLButtonElement = stat[el].querySelector('#shareProfile1Btn')
+        const toGo = stat[el].querySelector('#shareProfile1')
+        if (btn) {
+          if (!isImgProfile) {
+            const newIMG = document.createElement('img')
+            newIMG.src = `https://share.brawlify.com/player/${id}`
+            toGo.parentNode.parentNode.appendChild(newIMG)
+            isImgProfile = true
+          }
+          removeHtmlElement(stat[el], '#shareProfile1Btn')
+        }
 
         stat[el].querySelectorAll('.summary-box, .col-3.col-sm-2.col-md-2.col-lg-1.mb-2 a').forEach(element => {
           if (element.getAttribute('href')) {
